@@ -1,12 +1,12 @@
 package models
 
-/*
+import "fmt"
 
-struct result
-	total
-	array
+type Result struct {
+	total int
+	array []int
+}
 
-func Show
-	print result
-
-*/
+func (res *Result) Show() {
+	fmt.Println(res.total, res.array)
+}
