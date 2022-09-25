@@ -1,12 +1,17 @@
 package models
 
-/*
+import "math/rand"
 
-struct dice
-	side
-	amount
+type Dice struct {
+	Side   int
+	Amount int
+}
 
-func Roll
-	return result
-
-*/
+func (dice *Dice) Roll() (res Result) {
+	for i := 0; i < dice.Amount; i++ {
+		score := rand.Int() % dice.Side
+		res.total += score
+		res.array = append(res.array, score)
+	}
+	return res
+}
