@@ -21,7 +21,7 @@ func main() {
 			dice, err := models.NewDice(diceStr)
 			if err != nil {
 				fmt.Println(err)
-				continue
+				break
 			}
 
 			newRes := models.Roll(dice)
