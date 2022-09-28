@@ -10,8 +10,8 @@ type Dice struct {
 func (dice *Dice) Roll() (res Result) {
 	for i := 0; i < dice.Amount; i++ {
 		score := rand.Int() % dice.Side
-		res.total += score
-		res.array = append(res.array, score)
+		res.Total += score
+		res.Array = append(res.Array, score)
 	}
 	return res
 }
