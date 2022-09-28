@@ -1,10 +1,23 @@
 package models
 
-import "fmt"
+import (
+	"fmt"
+	"math/rand"
+)
 
 type Result struct {
 	Total int
 	Array []int
+}
+
+func Roll(dice *Dice) *Result {
+	res := &Result{}
+	for i := 0; i < dice.Amount; i++ {
+		score := rand.Int() % dice.Side
+		res.Total += score
+		res.Array = append(res.Array, score)
+	}
+	return res
 }
 
 func (res *Result) Show() {

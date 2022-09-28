@@ -1,17 +1,39 @@
 package models
 
-import "math/rand"
+import (
+	"errors"
+	"regexp"
+	"strconv"
+	"strings"
+)
 
 type Dice struct {
 	Side   int
 	Amount int
 }
 
-func (dice *Dice) Roll() (res Result) {
-	for i := 0; i < dice.Amount; i++ {
-		score := rand.Int() % dice.Side
-		res.Total += score
-		res.Array = append(res.Array, score)
+func NewDice(diceStr string) (*Dice, error) {
+	if !isValidDiceStr(diceStr) {
+		return nil, errors.New("invalid dice format")
 	}
-	return res
+
+	parsed := strings.Split(diceStr, "d")
+
+	amount, err := strconv.Atoi(parsed[0])
+	if err != nil {
+		return nil, err
+	}
+
+	side, err := strconv.Atoi(parsed[1])
+	if err != nil {
+		return nil, err
+	}
+
+	dice := &Dice{Side: side, Amount: amount}
+	return dice, nil
+}
+
+func isValidDiceStr(diceStr string) bool {
+	matched, err := regexp.Match("\\d+d\\d+", []byte(diceStr))
+	return err == nil && matched
 }
