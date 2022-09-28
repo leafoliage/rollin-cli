@@ -21,10 +21,16 @@ func Roll(dice *Dice) *Result {
 }
 
 func (res *Result) Show() {
-	fmt.Println(res.Total, res.Array)
+	if !res.Empty() {
+		fmt.Println(res.Total, res.Array)
+	}
 }
 
 func (res *Result) Append(newRes *Result) {
 	res.Total += newRes.Total
 	res.Array = append(res.Array, newRes.Array...)
+}
+
+func (res *Result) Empty() bool {
+	return len(res.Array) == 0 || res.Total == 0
 }
