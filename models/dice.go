@@ -12,32 +12,40 @@ type Dice struct {
 	Amount int
 }
 
+var errInvalidDiceFormat = errors.New("invalid dice format")
+var errInvalidDice = errors.New("invalid dice")
+
 func NewDice(diceStr string) (*Dice, error) {
-	if !isValidDiceStr(diceStr) {
-		return nil, errors.New("invalid dice format")
-	}
-
-	parsed := strings.Split(diceStr, "d")
-
-	amount, err := strconv.Atoi(parsed[0])
+	side, amount, err := validateDiceStr(diceStr)
 	if err != nil {
 		return nil, err
-	}
-
-	side, err := strconv.Atoi(parsed[1])
-	if err != nil {
-		return nil, err
-	}
-
-	if amount <= 0 || side <= 0 {
-		return nil, errors.New("invalid dice")
 	}
 
 	dice := &Dice{Side: side, Amount: amount}
 	return dice, nil
 }
 
-func isValidDiceStr(diceStr string) bool {
+func validateDiceStr(diceStr string) (side int, amount int, err error) {
 	matched, err := regexp.Match("\\d+d\\d+", []byte(diceStr))
-	return err == nil && matched
+	if err != nil || !matched {
+		return 0, 0, errInvalidDiceFormat
+	}
+
+	parsed := strings.Split(diceStr, "d")
+
+	amount, err = strconv.Atoi(parsed[0])
+	if err != nil {
+		return 0, 0, errInvalidDiceFormat
+	}
+
+	side, err = strconv.Atoi(parsed[1])
+	if err != nil {
+		return 0, 0, errInvalidDiceFormat
+	}
+
+	if amount <= 0 || side <= 0 {
+		return 0, 0, errInvalidDice
+	}
+
+	return side, amount, nil
 }
