@@ -29,6 +29,10 @@ func NewDice(diceStr string) (*Dice, error) {
 		return nil, err
 	}
 
+	if amount <= 0 || side <= 0 {
+		return nil, errors.New("invalid dice")
+	}
+
 	dice := &Dice{Side: side, Amount: amount}
 	return dice, nil
 }
