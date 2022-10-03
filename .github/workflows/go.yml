@@ -1,7 +1,13 @@
 # .github/workflows/release.yaml
 
-on: release
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+
 name: Build Release
+
 jobs:
   release-linux-386:
     name: release linux/386
