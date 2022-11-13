@@ -12,9 +12,10 @@ import (
 
 func main() {
 	rand.Seed(time.Now().UnixNano())
+	requests := os.Args[1:]
 
-	for _, request := range os.Args[1:] {
-		result := models.Result{}
+	for _, request := range requests {
+		var totalResult models.Result
 		diceStrs := parseRequest(request)
 
 		for _, diceStr := range diceStrs {
@@ -24,11 +25,11 @@ func main() {
 				break
 			}
 
-			newRes := models.Roll(dice)
-			result.Append(newRes)
+			newResult := dice.Roll()
+			totalResult.Append(newResult)
 		}
 
-		result.Show()
+		totalResult.Show()
 	}
 }
 
