@@ -36,6 +36,10 @@ func main() {
 			diceset.Import(request)
 		}
 
+		if diceset.Empty() {
+			continue
+		}
+
 		if *noAnime {
 			diceset.Roll()
 			diceset.Print(true)

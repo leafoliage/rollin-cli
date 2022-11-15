@@ -78,6 +78,10 @@ func (diceSet *DiceSet) ScoreAnimation() {
 	time.Sleep(time.Millisecond * 100)
 }
 
+func (diceSet *DiceSet) Empty() bool {
+	return len(diceSet.Set) == 0
+}
+
 func validateRequest(request string) (side int, amount int, err error) {
 
 	matched, err := regexp.Match("\\d+d\\d+", []byte(request))
