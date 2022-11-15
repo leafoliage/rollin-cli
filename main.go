@@ -2,6 +2,7 @@ package main
 
 import (
 	"flag"
+	"fmt"
 	"math/rand"
 	"os"
 	"os/exec"
@@ -16,7 +17,14 @@ func main() {
 	rand.Seed(time.Now().UnixNano())
 
 	noAnime := flag.Bool("n", false, "no dice rolling animation")
+	help := flag.Bool("h", false, "help page")
+
 	flag.Parse()
+
+	if *help {
+		showHelpPage()
+		return
+	}
 
 	for _, arg := range flag.Args() {
 
@@ -37,6 +45,12 @@ func main() {
 			showCursor(true)
 		}
 	}
+}
+
+func showHelpPage() {
+	fmt.Printf("\nUsage: roll [amount]d[side](+[amount]d[side])\n")
+	fmt.Printf("Example:\n  'roll 1d6' means roll 1 die with 6 face\n")
+	fmt.Printf("  'roll 1d6+2d8' means roll 1 die with 6 face and 2 dice with 8 face\n\n")
 }
 
 func parseArgument(arg string) []string {
