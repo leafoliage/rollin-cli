@@ -62,18 +62,15 @@ func (diceSet *DiceSet) Print(showScore bool) {
 func (diceSet *DiceSet) ScoreAnimation() {
 
 	time.Sleep(time.Millisecond * 100)
-	saveCursorPos()
 
 	for i := 0; i < 25; i++ {
 
-		rollBackCursorPos()
 		diceSet.Roll()
 		diceSet.Print(false)
 		time.Sleep(time.Millisecond * time.Duration(50+i*10))
-
+		clearLine()
 	}
 
-	rollBackCursorPos()
 	diceSet.Print(true)
 	time.Sleep(time.Millisecond * 100)
 }
@@ -108,10 +105,6 @@ func validateRequest(request string) (side int, amount int, err error) {
 	return side, amount, nil
 }
 
-func saveCursorPos() {
-	fmt.Print("\033[s")
-}
-
-func rollBackCursorPos() {
-	fmt.Print("\033[u\033[K")
+func clearLine() {
+	fmt.Printf("\033[A")
 }
