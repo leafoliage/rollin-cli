@@ -1,6 +1,7 @@
 package main
 
 import (
+	"flag"
 	"math/rand"
 	"os"
 	"os/exec"
@@ -14,9 +15,10 @@ func main() {
 
 	rand.Seed(time.Now().UnixNano())
 
-	args := os.Args[1:]
+	noAnime := flag.Bool("n", false, "no dice rolling animation")
+	flag.Parse()
 
-	for _, arg := range args {
+	for _, arg := range flag.Args() {
 
 		var diceset models.DiceSet
 
@@ -26,9 +28,14 @@ func main() {
 			diceset.Import(request)
 		}
 
-		showCursor(false)
-		diceset.ScoreAnimation()
-		showCursor(true)
+		if *noAnime {
+			diceset.Roll()
+			diceset.Print(true)
+		} else {
+			showCursor(false)
+			diceset.ScoreAnimation()
+			showCursor(true)
+		}
 	}
 }
 
