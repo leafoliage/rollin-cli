@@ -26,14 +26,12 @@ func NewDice(diceStr string) (*Dice, error) {
 	return dice, nil
 }
 
-func (dice *Dice) Roll() *Result {
-	var res *Result
+func (dice *Dice) Roll(res *Result) {
 	for i := 0; i < dice.Amount; i++ {
 		score := rand.Int()%(dice.Side-1) + 1
 		res.Total += score
 		res.Array = append(res.Array, score)
 	}
-	return res
 }
 
 func validateDiceStr(diceStr string) (side int, amount int, err error) {

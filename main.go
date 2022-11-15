@@ -25,8 +25,9 @@ func main() {
 				break
 			}
 
-			newResult := dice.Roll()
-			totalResult.Append(newResult)
+			var newResult models.Result
+			dice.Roll(&newResult)
+			totalResult.Append(&newResult)
 		}
 
 		totalResult.Show()
