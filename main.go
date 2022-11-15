@@ -21,7 +21,7 @@ func main() {
 
 	flag.Parse()
 
-	if *help {
+	if *help || len(os.Args) <= 1 {
 		showHelpPage()
 		return
 	}
@@ -54,7 +54,10 @@ func main() {
 func showHelpPage() {
 	fmt.Printf("\nUsage: roll [amount]d[side](+[amount]d[side])\n")
 	fmt.Printf("Example:\n  'roll 1d6' means roll 1 die with 6 face\n")
-	fmt.Printf("  'roll 1d6+2d8' means roll 1 die with 6 face and 2 dice with 8 face\n\n")
+	fmt.Printf("  'roll 1d6+2d8' means roll 1 die with 6 face and 2 dice with 8 face\n")
+	fmt.Printf("Flags:\n  -n: No dice rolling animation\n")
+	fmt.Printf("  -h: Help page\n")
+	fmt.Println()
 }
 
 func parseArgument(arg string) []string {
