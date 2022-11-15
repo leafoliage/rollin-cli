@@ -27,7 +27,7 @@ func main() {
 
 			var newResult models.Result
 			dice.Roll(&newResult)
-			totalResult.Append(&newResult)
+			totalResult.Merge(&newResult)
 		}
 
 		totalResult.Show()

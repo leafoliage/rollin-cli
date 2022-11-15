@@ -15,7 +15,7 @@ func (res *Result) Show() {
 	}
 }
 
-func (res *Result) Append(newRes *Result) {
+func (res *Result) Merge(newRes *Result) {
 	res.Total += newRes.Total
 	res.Array = append(res.Array, newRes.Array...)
 }
