@@ -1,9 +1,9 @@
 package main
 
 import (
-	"fmt"
 	"math/rand"
 	"os"
+	"os/exec"
 	"strings"
 	"time"
 
@@ -11,30 +11,42 @@ import (
 )
 
 func main() {
+
 	rand.Seed(time.Now().UnixNano())
-	requests := os.Args[1:]
 
-	for _, request := range requests {
-		var totalResult models.Result
-		diceStrs := parseRequest(request)
+	args := os.Args[1:]
 
-		for _, diceStr := range diceStrs {
-			dice, err := models.NewDice(diceStr)
-			if err != nil {
-				fmt.Println(err)
-				break
-			}
+	for _, arg := range args {
 
-			var newResult models.Result
-			dice.Roll(&newResult)
-			totalResult.Merge(&newResult)
+		var diceset models.DiceSet
+
+		requests := parseArgument(arg)
+
+		for _, request := range requests {
+			diceset.Import(request)
 		}
 
-		totalResult.Show()
+		showCursor(false)
+		diceset.ScoreAnimation()
+		showCursor(true)
 	}
 }
 
-func parseRequest(reqStr string) (diceStrs []string) {
-	diceStrs = strings.Split(reqStr, "+")
-	return
+func parseArgument(arg string) []string {
+	request := strings.Split(arg, "+")
+	return request
+}
+
+func showCursor(show bool) {
+
+	var arg string
+	if show {
+		arg = "cvvis"
+	} else {
+		arg = "civis"
+	}
+
+	cmd := exec.Command("tput", arg)
+	cmd.Stdout = os.Stdout
+	cmd.Run()
 }
